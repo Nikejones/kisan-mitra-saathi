@@ -232,7 +232,7 @@ const FarmerProfile = () => {
           </CardContent>
         </Card>
 
-        {/* Quick Stats */}
+        {/* Farm Statistics */}
         <Card className="shadow-card">
           <CardHeader>
             <div className="flex items-center gap-3">
@@ -241,25 +241,50 @@ const FarmerProfile = () => {
               </div>
               <div>
                 <CardTitle>Farm Statistics</CardTitle>
-                <CardDescription>Key farming metrics</CardDescription>
+                <CardDescription>Key farming metrics / मुख्य कृषि आंकड़े</CardDescription>
               </div>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="text-center p-3 bg-accent rounded-lg">
-                <div className="text-2xl font-bold text-primary">{profile.farmSize}</div>
-                <div className="text-sm text-muted-foreground">Total Acres</div>
+            {!isEditing ? (
+              <>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="text-center p-3 bg-accent rounded-lg">
+                    <div className="text-2xl font-bold text-primary">{profile.farmSize}</div>
+                    <div className="text-sm text-muted-foreground">Total Acres</div>
+                  </div>
+                  <div className="text-center p-3 bg-accent rounded-lg">
+                    <div className="text-2xl font-bold text-success">{profile.experience}</div>
+                    <div className="text-sm text-muted-foreground">Years Exp.</div>
+                  </div>
+                </div>
+                <div className="text-center p-3 bg-accent rounded-lg">
+                  <div className="text-2xl font-bold text-crop-yellow">{profile.pastYield}</div>
+                  <div className="text-sm text-muted-foreground">Avg. Yield (Q/Acre)</div>
+                </div>
+              </>
+            ) : (
+              <div className="space-y-4">
+                <div className="text-sm text-muted-foreground mb-2">
+                  Note: Statistics are calculated from your farm details above
+                  नोट: आंकड़े आपके ऊपर दिए गए खेत विवरण से गणना की गई है
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="text-center p-3 bg-accent rounded-lg border-2 border-dashed border-muted">
+                    <div className="text-2xl font-bold text-primary">{profile.farmSize}</div>
+                    <div className="text-sm text-muted-foreground">Total Acres (Auto)</div>
+                  </div>
+                  <div className="text-center p-3 bg-accent rounded-lg border-2 border-dashed border-muted">
+                    <div className="text-2xl font-bold text-success">{profile.experience}</div>
+                    <div className="text-sm text-muted-foreground">Years Exp. (Auto)</div>
+                  </div>
+                </div>
+                <div className="text-center p-3 bg-accent rounded-lg border-2 border-dashed border-muted">
+                  <div className="text-2xl font-bold text-crop-yellow">{profile.pastYield}</div>
+                  <div className="text-sm text-muted-foreground">Avg. Yield (Auto)</div>
+                </div>
               </div>
-              <div className="text-center p-3 bg-accent rounded-lg">
-                <div className="text-2xl font-bold text-success">{profile.experience}</div>
-                <div className="text-sm text-muted-foreground">Years Exp.</div>
-              </div>
-            </div>
-            <div className="text-center p-3 bg-accent rounded-lg">
-              <div className="text-2xl font-bold text-crop-yellow">{profile.pastYield}</div>
-              <div className="text-sm text-muted-foreground">Avg. Yield (Q/Acre)</div>
-            </div>
+            )}
           </CardContent>
         </Card>
       </div>

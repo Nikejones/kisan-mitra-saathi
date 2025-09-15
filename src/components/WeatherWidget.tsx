@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { CloudSun, Droplets, Wind, Eye, Thermometer, AlertTriangle, RefreshCw } from "lucide-react";
+import { CloudSun, Droplets, Wind, Eye, Thermometer, AlertTriangle, RefreshCw, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
 
@@ -39,6 +40,15 @@ const WeatherWidget = () => {
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(false);
   const [location, setLocation] = useState("Meerut, UP");
+  
+  const indianCities = [
+    "Meerut, UP", "Delhi", "Mumbai, Maharashtra", "Kolkata, West Bengal", 
+    "Chennai, Tamil Nadu", "Bangalore, Karnataka", "Hyderabad, Telangana",
+    "Pune, Maharashtra", "Ahmedabad, Gujarat", "Jaipur, Rajasthan",
+    "Lucknow, UP", "Kanpur, UP", "Agra, UP", "Varanasi, UP",
+    "Patna, Bihar", "Indore, MP", "Bhopal, MP", "Ludhiana, Punjab",
+    "Coimbatore, Tamil Nadu", "Kochi, Kerala", "Visakhapatnam, AP"
+  ];
 
   // OpenWeatherMap API key - In production, this should be in environment variables
   const API_KEY = "your_openweather_api_key"; // Replace with actual API key
@@ -128,10 +138,25 @@ const WeatherWidget = () => {
           <h2 className="text-2xl font-bold text-foreground">Weather Intelligence</h2>
           <p className="text-muted-foreground">मौसम जानकारी - Real-time weather updates for {location}</p>
         </div>
-        <Button onClick={fetchWeather} disabled={loading} variant="outline">
-          <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
-          Refresh
-        </Button>
+        <div className="flex gap-2 items-center">
+          <Select value={location} onValueChange={setLocation}>
+            <SelectTrigger className="w-48">
+              <MapPin className="h-4 w-4 mr-2" />
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent className="bg-background border shadow-lg z-50">
+              {indianCities.map((city) => (
+                <SelectItem key={city} value={city} className="cursor-pointer hover:bg-accent">
+                  {city}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Button onClick={fetchWeather} disabled={loading} variant="outline">
+            <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+            Refresh
+          </Button>
+        </div>
       </div>
 
       {/* Weather Alerts */}
